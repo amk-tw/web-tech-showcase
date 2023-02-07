@@ -1,0 +1,36 @@
+version: 0.1
+cli:
+  version: 1.4.1
+plugins:
+  sources:
+    - id: trunk
+      ref: v0.0.9
+      uri: https://github.com/trunk-io/plugins
+lint:
+  enabled:
+    - git-diff-check
+    - gitleaks@8.15.3
+    - prettier@2.8.3
+runtimes:
+  enabled:
+    - go@1.18.3
+    - node@18.12.1
+actions:
+  enabled:
+    - commitlint
+    - trunk-announce
+    - trunk-check-pre-push
+    - trunk-fmt-pre-commit
+    - trunk-upgrade-available
+  definitions:
+    - id: devmoji
+      run: pnpm devmoji -e --lint
+      triggers:
+        - git_hooks:
+            - prepare-commit-msg
+    - id: danger
+      run: pnpm danger local --base main
+      triggers:
+        - git_hooks:
+            - pre-push
+            - commit-msg

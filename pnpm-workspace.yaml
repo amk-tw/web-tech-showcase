@@ -1,5 +1,4 @@
 packages:
-    - apps/*
-    - libraries/*
-    - tools/*
-    
+  - apps/*
+  - libraries/*
+  - tools/*
