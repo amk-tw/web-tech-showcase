@@ -35,8 +35,13 @@ tasks:
     inputs:
       - "@group(astro)"
     deps:
-      - "~:typecheck"
-
+      - "~:install"
+  typecheck:
+    command: pnpm tsc
+    inputs:
+      - "**/*.{ts,tsx}"
+    deps:
+      - "~:check"
   # Preview production build locally
   preview:
     command: "astro preview"
