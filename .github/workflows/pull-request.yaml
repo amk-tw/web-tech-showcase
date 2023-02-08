@@ -1,0 +1,33 @@
+name: Pull Request
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions: write-all
+
+jobs:
+  pull-request:
+    name: Moon CI for PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.head_ref }}
+
+      - name: Setup and Cache Tools
+        uses: ./.github/actions/setup-and-cache
+
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1
+
+      - name: Moon CI Step
+        run: moon ci
+
+      - name: Moon Report
+        if: success() || failure()
+        uses: moonrepo/run-report-action@v1
+        with:
+          access-token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,7 +1,9 @@
 <div id="search"></div>
 
 <script>
+	// @ts-ignore
 	window.addEventListener('DOMContentLoaded', (event) => {
+		// @ts-ignore
 	  new PagefindUI({ element: '#search', resetStyles: false,    translations: {
         placeholder: "'/' Search",
     }});
@@ -11,6 +13,7 @@
         if (event.key === '/' || event.key === '.') {
             console.log('you pressed the slash');
             event.preventDefault();
+			// @ts-ignore
             document.querySelector('div#search input').focus();
         }
     });

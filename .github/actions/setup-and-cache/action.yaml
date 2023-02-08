@@ -16,7 +16,15 @@ runs:
     - name: Set node version to ${{ inputs.node-version }}
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ inputs.node-version }}
+        node-version-file: ".nvmrc"
+
+    - name: Enable Corepack
+      shell: bash
+      run: corepack enable
+
+    - name: Install moonrepo
+      shell: bash
+      run: curl -fsSl https://moonrepo.dev/install.sh | bash
 
     # - name: Resolve package versions
     #   id: resolve-package-versions
