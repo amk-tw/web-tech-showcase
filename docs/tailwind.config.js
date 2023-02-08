@@ -16,12 +16,14 @@
 // }
 import preline from "preline/plugin.js"
 import typeography from "@tailwindcss/typography"
+import containerQueries from "@tailwindcss/container-queries"
+import forms from "@tailwindcss/forms"
 export default {
   content: [
     "./public/**/*.astro",
     "./src/**/*.{astro,js,jsx,ts,tsx,vue}",
     "./node_modules/preline/dist/*.js",
   ],
-  plugins: [typeography, preline],
+  plugins: [containerQueries, forms, typeography, preline],
   darkMode: "class",
 }
