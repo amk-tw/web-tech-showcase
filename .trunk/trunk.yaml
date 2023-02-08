@@ -22,6 +22,7 @@ actions:
     - trunk-check-pre-push
     - trunk-fmt-pre-commit
     - trunk-upgrade-available
+    - devmoji
   definitions:
     - id: devmoji
       run: pnpm devmoji -e --lint
