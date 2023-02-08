@@ -1,0 +1,17 @@
+---
+import Base from '@/layouts/Base.astro'
+import { getCollection } from 'astro:content';
+// 1. Generate a new path for every collection entry
+export async function getStaticPaths() {
+  const Entries = await getCollection('docs');
+  return Entries.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+// 2. When it's time to render, you can get the entry directly from the prop
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+<Base title={entry.data.title}>
+<Content />
+</Base>

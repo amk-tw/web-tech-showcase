@@ -1,0 +1,39 @@
+---
+title: moonrepo
+status: accepted
+tags:
+  - mono
+publishedDate: 2023-02-07
+navigation:
+  order: 2
+---
+
+## Context
+
+Use one set of tooling for monorepo management. Considered nx, PNPM workspaces, Yarn berry workspaces, Turborepo and Wireit.
+
+## Decision
+
+Moonrepo is a new tool on the block. The initial goal is to make it the monorepo tool because they have a concept of a toolchain, the tools that are needed in the repo. Which can go beyond just JavaScript. To me this shows a lot of prommise espcially with the other features around code generation and automatic Docker setups.
+
+It supports caching including in the pipeline but its not tied to a service, yet. There is a closed beta of a service but you can setup caching within GitHub actions and never rely on it. It would mean that in a large mono repo, new users could have inital startup tasks that take awhile since there could be a lot of dependant upstream builds that need to occur.
+
+### nx
+
+Has a large ecosystem and plugins but there is a lot of overhead for a single person mono repo. Since everything is JavaScript based all code generation, dependencies and scripts need to be done in JavaScript. All leads to a large monorepo with most files just being configuration.
+
+### Turborepo
+
+Similar in setup to nx but with out an ecosystem.
+
+### PNPM vs Yarn Berry Workspaces
+
+PNPM will be used as the package manager for the repo since it has the concept of scoped packages for projects but doesnt pin you into setting up all of the proper peer dependencies that Yarn Berry PnP mode does. Also easily define packages needed for one project and not install them if the package isnt touched. Leading to faster runtimes.
+
+### Wireit
+
+Great for smaller monorepos, could have been used but wanted cleaner control.
+
+## Consequences
+
+Being the bleeding edge means there potentially breaking api changes and theres not a lot of third party information for debugging.
