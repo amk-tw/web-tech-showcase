@@ -1,0 +1,33 @@
+---
+import Base from "@/layouts/Base.astro";
+interface Props {
+  title: string
+  tags: string[]
+}
+
+const { title, tags } = Astro.props
+---
+
+<Base title={title}>
+  <header>
+    <p class="mb-2 text-sm font-semibold text-blue-600">
+      Architectural Decision Record
+    </p>
+    <h1
+      class="block text-2xl font-bold text-gray-800 sm:text-3xl dark:text-white mb-2"
+    >
+      {title}
+    </h1>
+    {
+      tags.map((entry) => (
+        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium  bg-purple-500 text-white">
+          {entry}
+        </span>
+      ))
+    }
+    <!-- <p class="mt-2 text-lg text-gray-800 dark:text-gray-400">{publishedDate}</p> -->
+  </header>
+  <div class="prose dark:prose-invert">
+    <slot />
+  </div>
+</Base>

@@ -1,19 +1,23 @@
 ---
-import Base from '@/layouts/Base.astro'
-import { getCollection } from 'astro:content';
-const adrEntries = await getCollection('adr');
+import Base from "@/layouts/Base.astro";
+import { getCollection } from "astro:content";
+const adrEntries = await getCollection("adr")
+
+// TODO: Link to Page in sidebar
+// TODO: add excerpt
 ---
+
 <Base title="ADRs">
-
-
-<ul>
-  {adrEntries.map(adrEntry => (
-    <li>
-      <a href={`/adr/${adrEntry.slug}`}>{adrEntry.data.title}</a>
-      <time datetime={adrEntry.data.publishedDate.toISOString()}>
-        {adrEntry.data.publishedDate.toDateString()}
-      </time>
-    </li>
-  ))}
-</ul>
+  <ul>
+    {
+      adrEntries.map((adrEntry) => (
+        <li>
+          <a href={`/adr/${adrEntry.slug}`}>{adrEntry.data.title}</a>
+          <time datetime={adrEntry.data.publishedDate.toISOString()}>
+            {adrEntry.data.publishedDate.toDateString()}
+          </time>
+        </li>
+      ))
+    }
+  </ul>
 </Base>

@@ -1,17 +1,22 @@
 ---
-import ADR from '@/layouts/ADR.astro'
-import { getCollection } from 'astro:content';
-// 1. Generate a new path for every collection entry
+import ADR from "@/layouts/ADR.astro"
+import { getCollection } from "astro:content"
 export async function getStaticPaths() {
-  const adrEntries = await getCollection('adr');
-  return adrEntries.map(entry => ({
-    params: { slug: entry.slug }, props: { entry },
-  }));
+  const adrEntries = await getCollection("adr")
+  return adrEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }))
 }
-// 2. When it's time to render, you can get the entry directly from the prop
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { entry } = Astro.props
+const { Content } = await entry.render()
 ---
-<ADR title={entry.data.title} tags={entry.data.tags} status={entry.data.status} publishedDate={entry.data.publishedDate}>
-<Content />
+
+<ADR
+  title={entry.data.title}
+  tags={entry.data.tags}
+  status={entry.data.status}
+  publishedDate={entry.data.publishedDate}
+>
+  <Content />
 </ADR>

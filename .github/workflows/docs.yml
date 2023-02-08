@@ -37,9 +37,6 @@ jobs:
 
       - uses: ./.github/actions/setup-and-cache
 
-      - name: Install
-        run: pnpm i
-
       - name: Build with Astro
         run: moon run docs:postbuild
 
