@@ -1,45 +1,51 @@
 ---
-import Base from '@/layouts/Base.astro'
-interface Props{
-    title: string,
-    tags: string[],
-    status: "proposed" | "accepted" | "rejected" | "deprecated"
-    publishedDate: Date
+import Base from "@/layouts/Base.astro"
+interface Props {
+  title: string
+  tags: string[]
+  status: "proposed" | "accepted" | "rejected" | "deprecated"
+  publishedDate: Date
 }
 
+const { title } = Astro.props
 
-const {title, status } = Astro.props
-
-function colorLookUp(status: string): string{
-    let color = ''
-    switch (status) {
-        case 'proposed':
-            color = "blue"
-            break;
-        case "accepted":
-            color = "green"
-            break;
-        case "rejected":
-            color ="red"
-            break;
-        default:
-            color = "grey"
-            break;
-    }
-    return color
-}
+// TODO: use for color look for status
+// function colorLookUp(status: string): string{
+//     let color = ''
+//     switch (status) {
+//         case 'proposed':
+//             color = "blue"
+//             break;
+//         case "accepted":
+//             color = "green"
+//             break;
+//         case "rejected":
+//             color ="red"
+//             break;
+//         default:
+//             color = "grey"
+//             break;
+//     }
+//     return color
+// }
 
 // TODO: add badges
 ---
 
 <Base title={title}>
-    <header>
-        <p class="mb-2 text-sm font-semibold text-blue-600">Architectural Decision Record</p>
-        <h1 class="block text-2xl font-bold text-gray-800 sm:text-3xl dark:text-white mb-2">{title}</h1>
-        <!-- <span class={`inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium  bg-${colorLookUp(status)}-500 text-white`} >Badge</span> -->
-<!-- <p class="mt-2 text-lg text-gray-800 dark:text-gray-400">{publishedDate}</p> -->
-      </header>
-      <div class="prose dark:prose-invert">
-      <slot />
-      </div>
-    </Base>
+  <header>
+    <p class="mb-2 text-sm font-semibold text-blue-600">
+      Architectural Decision Record
+    </p>
+    <h1
+      class="block text-2xl font-bold text-gray-800 sm:text-3xl dark:text-white mb-2"
+    >
+      {title}
+    </h1>
+    <!-- <span class={`inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium  bg-${colorLookUp(status)}-500 text-white`} >Badge</span> -->
+    <!-- <p class="mt-2 text-lg text-gray-800 dark:text-gray-400">{publishedDate}</p> -->
+  </header>
+  <div class="prose dark:prose-invert">
+    <slot />
+  </div>
+</Base>
