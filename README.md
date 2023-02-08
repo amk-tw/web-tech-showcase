@@ -2,6 +2,8 @@
 
 > Note: Under heavy active development, large changes will be mentioned here.
 
+Repo Documentation Site: https://amk-tw.github.io/web-tech-showcase/
+
 ## Easy way
 
 This is using moonrepo all the way.
