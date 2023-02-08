@@ -19,10 +19,10 @@ runs:
         node-version-file: ".nvmrc"
 
     - name: Enable Corepack
-      run: corepack enable
+      shell: corepack enable
 
     - name: Install moonrepo
-      run: curl -fsSl https://moonrepo.dev/install.sh | bash
+      shell: curl -fsSl https://moonrepo.dev/install.sh | bash
 
     # - name: Resolve package versions
     #   id: resolve-package-versions

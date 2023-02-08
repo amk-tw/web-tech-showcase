@@ -17,7 +17,7 @@ jobs:
       - uses: ./.github/actions/setup-and-cache
 
       - name: Trunk Check
-        uses: truck-io/trunk-action@v1
+        uses: trunk-io/trunk-action@v1
 
   ci:
     name: Moon
