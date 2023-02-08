@@ -14,4 +14,6 @@ export default defineConfig({
     // compress(),
     // compressor()
   ],
+  site: "https://amk-tw.github.io",
+  base: "/web-tech-showcase",
 })

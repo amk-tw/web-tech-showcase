@@ -1,8 +1,18 @@
 ---
 import Base from '@/layouts/Base.astro'
+import Readme from '../../../README.md'
 ---
 
 
-	<Base title="Astro">
-		<h1>Astro</h1>
-	</Base>
+<Base title="Astro">
+	<div class="prose dark:prose-invert">
+		<Readme />
+	</div>
+</Base>
+
+<style>
+	.prose ul.contains-task-list li.task-list-item {
+		margin-bottom: 0;
+		margin-top: 0;
+	}
+</style>
