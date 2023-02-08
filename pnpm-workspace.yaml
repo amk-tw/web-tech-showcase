@@ -1,6 +1,6 @@
 packages:
-  - apps/*
-  - libraries/*
-  - tools/*
-  - packages/*
+  - apps/**
+  - libraries/**
+  - tools/**
+  - packages/**
   - docs
