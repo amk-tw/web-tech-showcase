@@ -7,20 +7,8 @@ on:
 permissions: write-all
 
 jobs:
-  trunk:
-    name: Trunk
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - uses: ./.github/actions/setup-and-cache
-
-      - name: Trunk Check
-        uses: trunk-io/trunk-action@v1
-
-  ci:
-    name: Moon
+  pull-request:
+    name: Moon CI for PR
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,6 +18,9 @@ jobs:
           ref: ${{ github.event.head_ref }}
 
       - uses: ./.github/actions/setup-and-cache
+
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1
 
       - name: Moon CI Step
         run: moon ci
