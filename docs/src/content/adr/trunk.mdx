@@ -1,0 +1,23 @@
+---
+title: trunk
+status: accepted
+tags:
+  - lint
+  - git-hooks
+  - mono
+publishedDate: 2023-02-07
+navigation:
+  order: 3
+---
+
+## Context
+
+Standardizing all linting and formatting across the repo makes maintenence easier.
+
+## Decision
+
+Trunk is a Rust based tool that can find and apply any and all linters to a repo. It also includes the ability to do actions automatically in the repo based on triggers, which include git-hooks which can make the initializing of any repo standardized for all contributers.
+
+## Consequences
+
+Customizations on linters and rules have some headaches, as the default configutations from Trunk want them to be scoped as small as possible. For most cases this is not a problem. With Astro.build which is in use is where the headache is because it uses a new file extension which is not recognized by default by Trunk.

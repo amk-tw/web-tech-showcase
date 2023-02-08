@@ -1,0 +1,11 @@
+extends:
+  - "plugin:astro/jsx-a11y-recommended"
+overrides:
+  - files:
+      - "*.astro"
+    parser: "astro-eslint-parser"
+    parserOptions:
+      parser: "@typescript-eslint/parser"
+      extraFileExtensions: [".astro"]
+      sourceType: "module"
+parser: "@typescript-eslint/parser"

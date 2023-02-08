@@ -1,0 +1,56 @@
+type: application
+language: typescript
+
+project:
+  description: Docs for the react-demo repo
+
+fileGroups:
+  astro:
+    - "src/**/*"
+    - "astro.config.*"
+
+tasks:
+  astro:
+    command: "astro"
+    local: true
+
+  # Development server
+  dev:
+    command: "astro dev"
+    local: true
+
+  # Production build
+  build:
+    command: "astro build"
+    inputs:
+      - "@group(astro)"
+    outputs:
+      - "dist"
+    deps:
+      - "~:install"
+
+  # Check .astro files
+  check:
+    command: "astro check"
+    inputs:
+      - "@group(astro)"
+    deps:
+      - "~:typecheck"
+
+  # Preview production build locally
+  preview:
+    command: "astro preview"
+    deps:
+      - "~:postbuild"
+    local: true
+  lint:
+    args:
+      - "--ext"
+      - ".ts,.tsx,.astro"
+  postbuild:
+    command: "pagefind --source dist/"
+    deps:
+      - "~:build"
+toolchain:
+  # Disable project references
+  typescript: false
