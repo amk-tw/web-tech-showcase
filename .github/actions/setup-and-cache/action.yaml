@@ -26,6 +26,10 @@ runs:
       shell: bash
       run: curl -fsSl https://moonrepo.dev/install.sh | bash
 
+    - name: Preinstall packages
+      shell: bash
+      run: pnpm install -r
+
     # - name: Resolve package versions
     #   id: resolve-package-versions
     #   shell: bash
