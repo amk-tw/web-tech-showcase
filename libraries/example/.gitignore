@@ -1,0 +1,5 @@
+storybook-static/
+!storybook-static/stories.json
+
+stats.html
+dist/*
