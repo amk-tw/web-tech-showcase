@@ -11,6 +11,11 @@ lint:
     - git-diff-check
     - gitleaks@8.15.3
     - prettier@2.8.3
+  ignore:
+    - linters:
+        - ALL
+      paths:
+        - templates/**
 runtimes:
   enabled:
     - go@1.18.3
