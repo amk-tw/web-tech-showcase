@@ -13,21 +13,33 @@ fileGroups:
 
 tasks:
   storybook:
-    command: "storybook"
+    command: "pnpm storybook"
     local: true
     inputs:
       - src/**/*.stories.*
     deps:
       - "~:install"
+  storybook-build:
+    command: "pnpm build-storybook"
+    inputs:
+      - src/**/*.stories.*
+    deps:
+      - "~:install"
   cypress:
-    command: "cy"
+    command: "pnpm cy"
     local: true
     inputs:
       - src/**/*.cy.*
     deps:
       - "~:install"
+  cypress-ct:
+    command: "pnpm test:cy-ct"
+    inputs:
+      - src/**/*.cy.*
+    deps:
+      - "~:install"
   build:
-    command: "build"
+    command: "pnpm build"
     inputs:
       - "@group(src)"
     outputs:

@@ -3,3 +3,5 @@ storybook-static/
 
 stats.html
 dist/*
+
+cypress/videos/*
