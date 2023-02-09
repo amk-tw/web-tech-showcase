@@ -1,0 +1,48 @@
+type: library
+language: typescript
+
+project:
+  description: Docs for the react-demo repo
+
+fileGroups:
+  src:
+    - "src/**/*"
+    - "!*.stories.*"
+    - "!*.cy.*"
+    - "!*.spec.*"
+
+tasks:
+  storybook:
+    command: "pnpm storybook"
+    local: true
+    inputs:
+      - src/**/*.stories.*
+    deps:
+      - "~:install"
+  storybook-build:
+    command: "pnpm build-storybook"
+    inputs:
+      - src/**/*.stories.*
+    deps:
+      - "~:install"
+  cypress:
+    command: "pnpm cy"
+    local: true
+    inputs:
+      - src/**/*.cy.*
+    deps:
+      - "~:install"
+  cypress-ct:
+    command: "pnpm test:cy-ct"
+    inputs:
+      - src/**/*.cy.*
+    deps:
+      - "~:install"
+  build:
+    command: "pnpm build"
+    inputs:
+      - "@group(src)"
+    outputs:
+      - "dist"
+    deps:
+      - "~:install"
