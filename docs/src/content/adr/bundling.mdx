@@ -1,0 +1,26 @@
+---
+title: Bundling
+status: accepted
+tags:
+  - bundler
+publishedDate: 2023-02-09
+navigation:
+  order: 1
+---
+
+## Context
+
+Bundling is a nessasary step in any proper form of component libraries.
+
+## Decision
+
+[Microbundle](https://github.com/developit/microbundle) was chosen as the default bundler for packages as its made to stay out of the way and is not optiniated on how to test.
+
+Considered options included [tsup](https://tsup.egoist.dev/) and [tsdx](https://tsdx.io/).
+
+- Tsup has more things to consider and setup than Microbundle. CSS support is experimental
+- tsdx is optiniated and forces in to Jest, usually good, but I want to do more experimenting with Vitest.
+
+## Consequences
+
+Need to create template generators for different testing options.

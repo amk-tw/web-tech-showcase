@@ -1,0 +1,35 @@
+---
+title: Generating
+tags:
+  - library
+  - generate
+  - component
+---
+
+## Generating a New Library
+
+To create a new React Library run this command:
+
+```sh
+moon generate react-lib libraries
+```
+
+You will then be prompted to give a name to the package. That name will be the package name as well.
+
+### Adding Dependencies
+
+To add a particular dependencies you can add it via PNPM with:
+
+```sh
+pnpm --filter <library-package-name> add <new-package>
+```
+
+> Note: you can get more precise by either making it a peer or dev dependency
+
+## Generating a New component
+
+> Work in progress
+
+There is a template already added to the repo, but it currently doesn't work.
+
+Broken way is to copy the files within `libraries/example/src/Button` and paste and modify as needed.
