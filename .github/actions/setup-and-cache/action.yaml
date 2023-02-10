@@ -59,12 +59,24 @@ runs:
           node -e "
             const fs = require('fs');
             const lockfile = fs.readFileSync('./pnpm-lock.yaml', 'utf8');
+            try {
             const cypressVersion = lockfile.match(/cypress: (\d+\.\d+\.\d+)/)[1];
+            } catch(){}
+            try {
             const playwrightVersion = lockfile.match(/playwright: (\d+\.\d+\.\d+)/)[1];
+            } catch(){}
+            try {
             const puppeteerVersion = lockfile.match(/puppeteer: (\d+\.\d+\.\d+)/)[1];
+            } catch(){}
+            try {
             console.log('CYPRESS_VERSION=' + cypressVersion);
+            } catch(){}
+            try {
             console.log('PLAYWRIGHT_VERSION=' + playwrightVersion);
+            } catch(){}
+            try{
             console.log('PUPPETEER_VERSION=' + puppeteerVersion);
+            } catch(){}
           "
         )" >> $GITHUB_OUTPUT
     - name: Cache Cypress v${{ steps.resolve-package-versions.outputs.CYPRESS_VERSION }}
