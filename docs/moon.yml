@@ -58,6 +58,12 @@ tasks:
       - "~:build"
     outputs:
       - "dist"
+  jampack:
+    command: jampack ./dist
+    deps:
+      - "~:postbuild"
+    outputs:
+      - "dist"
 toolchain:
   # Disable project references
   typescript: false

@@ -38,7 +38,7 @@ jobs:
       - uses: ./.github/actions/setup-and-cache
 
       - name: Build with Astro
-        run: moon run docs:postbuild
+        run: moon run docs:jampack
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
