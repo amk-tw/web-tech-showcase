@@ -11,3 +11,4 @@
 
 # coverage reports
 *coverage/
+*vitest-coverage/
