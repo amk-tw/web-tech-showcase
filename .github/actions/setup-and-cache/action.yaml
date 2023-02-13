@@ -31,7 +31,8 @@ runs:
       id: pnpm-install
       with:
         version: 7.27.0
-        run_install: false
+        run_install:
+          recursive: true
 
     - name: Get pnpm store directory
       id: pnpm-cache
@@ -46,10 +47,6 @@ runs:
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ runner.os }}-pnpm-store-
-
-    - name: Preinstall packages
-      shell: bash
-      run: pnpm install -r
 
     - name: Resolve Cypress package versions
       id: resolve-cypress-versions
