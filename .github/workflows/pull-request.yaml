@@ -28,7 +28,7 @@ jobs:
           ref: ${{ github.event.head_ref }}
 
       - name: Install moonrepo
-        uses: moonrepo/setup-moon-action@v1.3.0
+        uses: moonrepo/setup-moon-action@v0.0.1
 
       - name: Setup and Cache Tools
         uses: ./.github/actions/setup-and-cache
