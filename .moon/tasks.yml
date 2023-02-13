@@ -46,3 +46,5 @@ tasks:
   # Name of the task.
   install:
     command: pnpm install
+    options:
+      runInCI: false
