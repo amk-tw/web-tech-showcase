@@ -22,10 +22,29 @@ runs:
       shell: bash
       run: corepack enable
 
-    # - name: Install moonrepo
-    #   uses: moonrepo/setup-moon-action@v1
-    # shell: bash
-    # run: curl -fsSl https://moonrepo.dev/install.sh | bash
+    - name: Install moonrepo
+      shell: bash
+      run: curl -fsSl https://moonrepo.dev/install.sh | bash
+
+    - name: Get Moon location
+      id: moon-location
+      shell: bash
+      run: |
+        echo "MOON_PATH=$(which moon)" >> $GITHUB_OUTPUT
+
+    - name: Get Moon Version
+      id: moon-version
+      shell: bash
+      run: |
+        echo "MOON_VERSION=$(moon -V | grep moon | cut -d ' ' -f 2)" >> $GITHUB_OUTPUT
+
+    - uses: actions/cache@v3
+      name: Setup moon cache
+      with:
+        path: ${{ steps.moon-location.outputs.MOON_PATH }}
+        key: ${{ runner.os }}-moon
+        restore-keys: |
+          ${{ runner.os }}-${{ steps.moon-version.outputs.MOON_VERSION
 
     - name: Get pnpm store directory
       id: pnpm-cache
