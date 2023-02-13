@@ -67,3 +67,7 @@ tasks:
 toolchain:
   # Disable project references
   typescript: false
+workspace:
+  inheritedTasks:
+    # Exclude the inherited `test` task for this project
+    exclude: ["test"]
