@@ -44,7 +44,7 @@ runs:
         path: ${{ steps.moon-location.outputs.MOON_PATH }}
         key: ${{ runner.os }}-moon
         restore-keys: |
-          ${{ runner.os }}-${{ steps.moon-version.outputs.MOON_VERSION
+          ${{ runner.os }}-${{ steps.moon-version.outputs.MOON_VERSION }}
 
     - name: Get pnpm store directory
       id: pnpm-cache
