@@ -59,28 +59,17 @@ runs:
           node -e "
             const fs = require('fs');
             const lockfile = fs.readFileSync('./pnpm-lock.yaml', 'utf8');
-            try {
             const cypressVersion = lockfile.match(/cypress: (\d+\.\d+\.\d+)/)[1];
-            } catch(){}
-            try {
-            const playwrightVersion = lockfile.match(/playwright: (\d+\.\d+\.\d+)/)[1];
-            } catch(){}
-            try {
-            const puppeteerVersion = lockfile.match(/puppeteer: (\d+\.\d+\.\d+)/)[1];
-            } catch(){}
-            try {
             console.log('CYPRESS_VERSION=' + cypressVersion);
-            } catch(){}
-            try {
+            const playwrightVersion = lockfile.match(/playwright: (\d+\.\d+\.\d+)/)[1];
             console.log('PLAYWRIGHT_VERSION=' + playwrightVersion);
-            } catch(){}
-            try{
+            const puppeteerVersion = lockfile.match(/puppeteer: (\d+\.\d+\.\d+)/)[1];
             console.log('PUPPETEER_VERSION=' + puppeteerVersion);
-            } catch(){}
           "
         )" >> $GITHUB_OUTPUT
     - name: Cache Cypress v${{ steps.resolve-package-versions.outputs.CYPRESS_VERSION }}
       uses: actions/cache@v3
+      if: success() || failure()
       id: cypress-cache
       with:
         path: ${{ env.CYPRESS_CACHE_FOLDER }}
@@ -89,6 +78,7 @@ runs:
           ${{ runner.os }}-cypress-
     - name: Cache Playwright v${{ steps.resolve-package-versions.outputs.PLAYWRIGHT_VERSION }}
       uses: actions/cache@v3
+      if: success() || failure()
       id: playwright-cache
       with:
         path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
@@ -97,6 +87,7 @@ runs:
           ${{ runner.os }}-playwright-
     - name: Cache Puppeteer v${{ steps.resolve-package-versions.outputs.PUPPETEER_VERSION }}
       uses: actions/cache@v3
+      if: success() || failure()
       id: puppeteer-cache
       with:
         path: ${{ env.PUPPETEER_DOWNLOAD_PATH }}
