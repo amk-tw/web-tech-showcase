@@ -51,8 +51,8 @@ runs:
       shell: bash
       run: pnpm install -r
 
-    - name: Resolve package versions
-      id: resolve-package-versions
+    - name: Resolve Cypress package versions
+      id: resolve-cypress-versions
       shell: bash
       run: >
         echo "$(
@@ -61,36 +61,56 @@ runs:
             const lockfile = fs.readFileSync('./pnpm-lock.yaml', 'utf8');
             const cypressVersion = lockfile.match(/cypress: (\d+\.\d+\.\d+)/)[1];
             console.log('CYPRESS_VERSION=' + cypressVersion);
-            const playwrightVersion = lockfile.match(/playwright: (\d+\.\d+\.\d+)/)[1];
-            console.log('PLAYWRIGHT_VERSION=' + playwrightVersion);
-            const puppeteerVersion = lockfile.match(/puppeteer: (\d+\.\d+\.\d+)/)[1];
-            console.log('PUPPETEER_VERSION=' + puppeteerVersion);
           "
         )" >> $GITHUB_OUTPUT
-    - name: Cache Cypress v${{ steps.resolve-package-versions.outputs.CYPRESS_VERSION }}
+    - name: Cache Cypress v${{ steps.resolve-cypress-versions.outputs.CYPRESS_VERSION }}
       uses: actions/cache@v3
       if: success() || failure()
       id: cypress-cache
       with:
         path: ${{ env.CYPRESS_CACHE_FOLDER }}
-        key: ${{ runner.os }}-cypress-${{ steps.resolve-package-versions.outputs.CYPRESS_VERSION }}
+        key: ${{ runner.os }}-cypress-${{ steps.resolve-cypress-versions.outputs.CYPRESS_VERSION }}
         restore-keys: |
           ${{ runner.os }}-cypress-
-    - name: Cache Playwright v${{ steps.resolve-package-versions.outputs.PLAYWRIGHT_VERSION }}
+    - name: Resolve playwright versions
+      id: resolve-playwright-versions
+      shell: bash
+      run: >
+        echo "$(
+          node -e "
+            const fs = require('fs');
+            const lockfile = fs.readFileSync('./pnpm-lock.yaml', 'utf8');
+            const playwrightVersion = lockfile.match(/playwright: (\d+\.\d+\.\d+)/)[1];
+            console.log('PLAYWRIGHT_VERSION=' + playwrightVersion);
+          "
+        )" >> $GITHUB_OUTPUT
+    - name: Cache Playwright v${{ steps.resolve-playwright-versions.outputs.PLAYWRIGHT_VERSION }}
       uses: actions/cache@v3
       if: success() || failure()
       id: playwright-cache
       with:
         path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
-        key: ${{ runner.os }}-playwright-${{ steps.resolve-package-versions.outputs.PLAYWRIGHT_VERSION }}
+        key: ${{ runner.os }}-playwright-${{ steps.resolve-playwright-versions.outputs.PLAYWRIGHT_VERSION }}
         restore-keys: |
           ${{ runner.os }}-playwright-
-    - name: Cache Puppeteer v${{ steps.resolve-package-versions.outputs.PUPPETEER_VERSION }}
+    - name: Resolve puppeteer versions
+      id: resolve-puppeteer-versions
+      shell: bash
+      run: >
+        echo "$(
+          node -e "
+            const fs = require('fs');
+            const lockfile = fs.readFileSync('./pnpm-lock.yaml', 'utf8');
+            const puppeteerVersion = lockfile.match(/puppeteer: (\d+\.\d+\.\d+)/)[1];
+            console.log('PUPPETEER_VERSION=' + puppeteerVersion);
+          "
+        )" >> $GITHUB_OUTPUT
+    - name: Cache Puppeteer v${{ steps.resolve-puppeteer-versions.outputs.PUPPETEER_VERSION }}
       uses: actions/cache@v3
       if: success() || failure()
       id: puppeteer-cache
       with:
         path: ${{ env.PUPPETEER_DOWNLOAD_PATH }}
-        key: ${{ runner.os }}-puppeteer-${{ steps.resolve-package-versions.outputs.PUPPETEER_VERSION }}
+        key: ${{ runner.os }}-puppeteer-${{ steps.resolve-puppeteer-versions.outputs.PUPPETEER_VERSION }}
         restore-keys: |
           ${{ runner.os }}-puppeteer-
