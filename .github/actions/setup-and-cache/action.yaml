@@ -23,8 +23,9 @@ runs:
       run: corepack enable
 
     - name: Install moonrepo
-      shell: bash
-      run: curl -fsSl https://moonrepo.dev/install.sh | bash
+      uses: moonrepo/setup-moon-action@v1
+      # shell: bash
+      # run: curl -fsSl https://moonrepo.dev/install.sh | bash
 
     - name: Get pnpm store directory
       id: pnpm-cache
