@@ -1,0 +1,14 @@
+tasks:
+  test:
+    command:
+      - "jest"
+      # Always run code coverage
+      - "--coverage"
+      # Dont fail if a project has no tests
+      - "--passWithNoTests"
+    inputs:
+      # Source and test files
+      - "src/**/*"
+      - "tests/**/*"
+      # Project configs, any format
+      - "jest.config.*"

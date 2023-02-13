@@ -8,3 +8,7 @@
 
 # log files
 *.log
+
+# coverage reports
+*coverage/
+*vitest-coverage/

@@ -26,47 +26,108 @@ runs:
       shell: bash
       run: curl -fsSl https://moonrepo.dev/install.sh | bash
 
-    - name: Preinstall packages
+    - name: Get Moon location
+      id: moon-location
       shell: bash
-      run: pnpm install -r
+      run: |
+        echo "MOON_PATH=$(which moon)" >> $GITHUB_OUTPUT
 
-    # - name: Resolve package versions
-    #   id: resolve-package-versions
-    #   shell: bash
-    #   run: >
-    #     echo "$(
-    #       node -e "
-    #         const fs = require('fs');
-    #         const lockfile = fs.readFileSync('./pnpm-lock.yaml', 'utf8');
-    #         const cypressVersion = lockfile.match(/cypress: (\d+\.\d+\.\d+)/)[1];
-    #         const playwrightVersion = lockfile.match(/playwright: (\d+\.\d+\.\d+)/)[1];
-    #         const puppeteerVersion = lockfile.match(/puppeteer: (\d+\.\d+\.\d+)/)[1];
-    #         console.log('CYPRESS_VERSION=' + cypressVersion);
-    #         console.log('PLAYWRIGHT_VERSION=' + playwrightVersion);
-    #         console.log('PUPPETEER_VERSION=' + puppeteerVersion);
-    #       "
-    #     )" >> $GITHUB_OUTPUT
-    # - name: Cache Cypress v${{ steps.resolve-package-versions.outputs.CYPRESS_VERSION }}
-    #   uses: actions/cache@v3
-    #   id: cypress-cache
-    #   with:
-    #     path: ${{ env.CYPRESS_CACHE_FOLDER }}
-    #     key: ${{ runner.os }}-cypress-${{ steps.resolve-package-versions.outputs.CYPRESS_VERSION }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-cypress-
-    # - name: Cache Playwright v${{ steps.resolve-package-versions.outputs.PLAYWRIGHT_VERSION }}
-    #   uses: actions/cache@v3
-    #   id: playwright-cache
-    #   with:
-    #     path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
-    #     key: ${{ runner.os }}-playwright-${{ steps.resolve-package-versions.outputs.PLAYWRIGHT_VERSION }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-playwright-
-    # - name: Cache Puppeteer v${{ steps.resolve-package-versions.outputs.PUPPETEER_VERSION }}
-    #   uses: actions/cache@v3
-    #   id: puppeteer-cache
-    #   with:
-    #     path: ${{ env.PUPPETEER_DOWNLOAD_PATH }}
-    #     key: ${{ runner.os }}-puppeteer-${{ steps.resolve-package-versions.outputs.PUPPETEER_VERSION }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-puppeteer-
+    - name: Get Moon Version
+      id: moon-version
+      shell: bash
+      run: |
+        echo "MOON_VERSION=$(moon -V | grep moon | cut -d ' ' -f 2)" >> $GITHUB_OUTPUT
+
+    - uses: actions/cache@v3
+      name: Setup moon cache
+      with:
+        path: ${{ steps.moon-location.outputs.MOON_PATH }}
+        key: ${{ runner.os }}-moon
+        restore-keys: |
+          ${{ runner.os }}-moon-${{ steps.moon-version.outputs.MOON_VERSION }}
+          ${{ runner.os }}-moon-
+          -moon-
+
+    - name: Get pnpm store directory
+      id: pnpm-cache
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+    - uses: actions/cache@v3
+      name: Setup pnpm cache
+      with:
+        path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Resolve Cypress package versions
+      id: resolve-cypress-versions
+      shell: bash
+      run: >
+        echo "$(
+          node -e "
+            const fs = require('fs');
+            const lockfile = fs.readFileSync('./pnpm-lock.yaml', 'utf8');
+            const cypressVersion = lockfile.match(/cypress: (\d+\.\d+\.\d+)/)[1];
+            console.log('CYPRESS_VERSION=' + cypressVersion);
+          "
+        )" >> $GITHUB_OUTPUT
+    - name: Cache Cypress v${{ steps.resolve-cypress-versions.outputs.CYPRESS_VERSION }}
+      uses: actions/cache@v3
+      if: success() || failure()
+      id: cypress-cache
+      with:
+        path: ${{ env.CYPRESS_CACHE_FOLDER }}
+        key: ${{ runner.os }}-cypress-${{ steps.resolve-cypress-versions.outputs.CYPRESS_VERSION }}
+        restore-keys: |
+          ${{ runner.os }}-cypress-
+    - name: Resolve playwright versions
+      id: resolve-playwright-versions
+      shell: bash
+      run: >
+        echo "$(
+          node -e "
+            const fs = require('fs');
+            const lockfile = fs.readFileSync('./pnpm-lock.yaml', 'utf8');
+            const playwrightVersion = lockfile.match(/playwright: (\d+\.\d+\.\d+)/)[1];
+            console.log('PLAYWRIGHT_VERSION=' + playwrightVersion);
+          "
+        )" >> $GITHUB_OUTPUT
+    - name: Cache Playwright v${{ steps.resolve-playwright-versions.outputs.PLAYWRIGHT_VERSION }}
+      uses: actions/cache@v3
+      if: success() || failure()
+      id: playwright-cache
+      with:
+        path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+        key: ${{ runner.os }}-playwright-${{ steps.resolve-playwright-versions.outputs.PLAYWRIGHT_VERSION }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
+    - name: Resolve puppeteer versions
+      id: resolve-puppeteer-versions
+      shell: bash
+      run: >
+        echo "$(
+          node -e "
+            const fs = require('fs');
+            const lockfile = fs.readFileSync('./pnpm-lock.yaml', 'utf8');
+            const puppeteerVersion = lockfile.match(/puppeteer: (\d+\.\d+\.\d+)/)[1];
+            console.log('PUPPETEER_VERSION=' + puppeteerVersion);
+          "
+        )" >> $GITHUB_OUTPUT
+    - name: Cache Puppeteer v${{ steps.resolve-puppeteer-versions.outputs.PUPPETEER_VERSION }}
+      uses: actions/cache@v3
+      if: success() || failure()
+      id: puppeteer-cache
+      with:
+        path: ${{ env.PUPPETEER_DOWNLOAD_PATH }}
+        key: ${{ runner.os }}-puppeteer-${{ steps.resolve-puppeteer-versions.outputs.PUPPETEER_VERSION }}
+        restore-keys: |
+          ${{ runner.os }}-puppeteer-
+    - uses: pnpm/action-setup@v2
+      name: Install pnpm
+      id: pnpm-install
+      with:
+        version: 7.27.0
+        run_install: true

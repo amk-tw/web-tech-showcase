@@ -18,7 +18,7 @@ node:
 
   # The version of the package manager (above) to use.
   pnpm:
-    version: "7.27.0-0"
+    version: "7.27.0"
 
   # Add `node.version` as a constraint in the root `package.json` `engines`.
   addEnginesConstraint: true

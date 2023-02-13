@@ -26,16 +26,13 @@ tasks:
       - "@group(astro)"
     outputs:
       - "dist"
-    deps:
-      - "~:install"
 
   # Check .astro files
   check:
     command: "astro check"
     inputs:
       - "@group(astro)"
-    deps:
-      - "~:install"
+
   typecheck:
     command: tsc --noEmit
     inputs:
@@ -58,6 +55,16 @@ tasks:
       - "~:build"
     outputs:
       - "dist"
+  jampack:
+    command: jampack ./dist
+    deps:
+      - "~:postbuild"
+    outputs:
+      - "dist"
 toolchain:
   # Disable project references
   typescript: false
+workspace:
+  inheritedTasks:
+    # Exclude the inherited `test` task for this project
+    exclude: ["test"]

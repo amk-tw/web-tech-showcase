@@ -10,39 +10,50 @@ fileGroups:
     - "!*.stories.*"
     - "!*.cy.*"
     - "!*.spec.*"
-
+  vite:
+    - "src/**/*"
+    - "env.d.ts"
+    - "index.html"
+    - "vite.config.*"
 tasks:
   storybook:
     command: "pnpm storybook"
     local: true
     inputs:
       - src/**/*.stories.*
-    deps:
-      - "~:install"
+
   storybook-build:
     command: "pnpm build-storybook"
     inputs:
       - src/**/*.stories.*
-    deps:
-      - "~:install"
+
   cypress:
     command: "pnpm cy"
     local: true
     inputs:
       - src/**/*.cy.*
-    deps:
-      - "~:install"
+
   cypress-ct:
     command: "pnpm test:cy-ct"
     inputs:
       - src/**/*.cy.*
-    deps:
-      - "~:install"
+
   build:
     command: "pnpm build"
     inputs:
       - "@group(src)"
     outputs:
       - "dist"
-    deps:
-      - "~:install"
+
+  vitest:
+    command:
+      - "vitest"
+      - "run"
+      # Always run code coverage
+      - "--coverage"
+      # Dont fail if a project has no tests
+      - "--passWithNoTests"
+    inputs:
+      - "@group(vite)"
+      - "tests/**/*"
+      - "vitest.config.*"

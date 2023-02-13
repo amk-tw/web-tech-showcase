@@ -6,6 +6,16 @@ on:
 
 permissions: write-all
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  VITEST_SEGFAULT_RETRY: 3
+  PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/ms-playwright
+  CYPRESS_CACHE_FOLDER: ${{ github.workspace }}/.cache/Cypress
+  PUPPETEER_DOWNLOAD_PATH: ${{ github.workspace }}/.cache/Puppeteer
+
 jobs:
   pull-request:
     name: Moon CI for PR
