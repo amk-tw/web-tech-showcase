@@ -31,8 +31,7 @@ runs:
       id: pnpm-install
       with:
         version: 7.27.0
-        run_install: |
-          - recursive: true
+        run_install: true
 
     - name: Get pnpm store directory
       id: pnpm-cache
