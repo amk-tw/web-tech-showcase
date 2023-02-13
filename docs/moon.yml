@@ -26,16 +26,13 @@ tasks:
       - "@group(astro)"
     outputs:
       - "dist"
-    deps:
-      - "~:install"
 
   # Check .astro files
   check:
     command: "astro check"
     inputs:
       - "@group(astro)"
-    deps:
-      - "~:install"
+
   typecheck:
     command: tsc --noEmit
     inputs:

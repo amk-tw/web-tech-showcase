@@ -48,3 +48,5 @@ tasks:
     command: pnpm install
     options:
       runInCI: false
+implicitDeps:
+  - "^:install"
