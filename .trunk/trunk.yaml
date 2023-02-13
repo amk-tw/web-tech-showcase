@@ -20,6 +20,7 @@ lint:
         - ALL
       paths:
         - templates/**
+        - .cache/**
 runtimes:
   enabled:
     - go@1.18.3
